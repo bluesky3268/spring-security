@@ -22,6 +22,8 @@ public class User {
 
     private String email;
 
+    private String name;
+
     private String roles; // USER, MANAGER, ADMIN
 
     @CreationTimestamp
@@ -29,10 +31,11 @@ public class User {
 
     protected User() {}
 
-    private User(String userId, String password, String email, String roles) {
+    private User(String userId, String password, String email, String name, String roles) {
         this.userId = userId;
         this.password = password;
         this.email = email;
+        this.name = name;
 
         if(roles == null || roles.equals("")) this.roles = "ROLE_USER";
         else this.roles = roles;
@@ -40,8 +43,8 @@ public class User {
         this.createdAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public static User of(String userId, String password, String email, String roles) {
-        return new User(userId, password, email, roles);
+    public static User of(String userId, String password, String email, String name, String roles) {
+        return new User(userId, password, email, name, roles);
     }
 
     @Override

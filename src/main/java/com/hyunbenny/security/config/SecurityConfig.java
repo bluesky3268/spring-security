@@ -25,6 +25,9 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
                 .and()
                 .formLogin().loginPage("/login-form")
+//                .usernameParameter("userId")
+                .loginProcessingUrl("/login") // '/login' 이 호출되면 스프링 시큐리티가 중간에 낚아채서 대신 로그인을 진행해준다. 그렇기 때문에 내가 직접 로그인을 구현할 필요가 없다.
+                .defaultSuccessUrl("/") // 로그인이 성공하면 이동할 주소
                 .and()
                 .csrf().disable()
                 .build();
