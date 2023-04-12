@@ -1,11 +1,21 @@
 package com.hyunbenny.security.controller;
 
+import com.hyunbenny.security.dto.request.JoinRequest;
+import com.hyunbenny.security.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+@Slf4j
 @Controller
+@RequiredArgsConstructor
 public class IndexController {
+
+    private final UserService userService;
 
     @GetMapping({"", "/"})
     public String index() {
@@ -29,18 +39,24 @@ public class IndexController {
         return "manager";
     }
 
-    @GetMapping("/login")
-    public String login() {
+    @GetMapping("/login-form")
+    public String loginForm() {
         return "login";
     }
 
-    @GetMapping("/join")
-    public @ResponseBody String join() {
+    @PostMapping("/login")
+    public @ResponseBody String login() {
+        return "login";
+    }
+
+    @GetMapping("/join-form")
+    public String joinForm() {
         return "join";
     }
 
-    @GetMapping("/join-proc")
-    public @ResponseBody String joinProc() {
-        return "회원가입 완료";
+    @PostMapping("/join")
+    public String join(JoinRequest request) {
+        userService.join(request.toUserDto());
+        return "redirect:/login-form";
     }
 }
