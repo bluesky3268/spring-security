@@ -4,6 +4,8 @@ import com.hyunbenny.security.dto.request.JoinRequest;
 import com.hyunbenny.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,5 +60,17 @@ public class IndexController {
     public String join(JoinRequest request) {
         userService.join(request.toUserDto());
         return "redirect:/login-form";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/info")
+    public @ResponseBody String info() {
+        return "개인정보";
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") // data()가 실행되기 직전에 실행된다. 하나만 걸 떄는 @Secured 쓰면 됨
+    @GetMapping("/data")
+    public @ResponseBody String data() {
+        return "DATA";
     }
 }

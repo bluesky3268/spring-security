@@ -2,11 +2,15 @@ package com.hyunbenny.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+//@EnableGlobalMethodSecurity(securedEnabled = true) // deprecated되어 아래의 어노테이션으로 대체
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true) // -> @Secured 활성화, @PreAuthorize 활성화 시키는 어노테이션
 public class SecurityConfig {
 
     /**
