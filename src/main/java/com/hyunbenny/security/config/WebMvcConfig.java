@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.nio.charset.StandardCharsets;
-
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
@@ -15,7 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         MustacheViewResolver viewResolver = new MustacheViewResolver();
         viewResolver.setCharset("UTF-8");
         viewResolver.setContentType("text/html;charset=UTF-8");
-        viewResolver.setPrefix("classpath:/templates");
+        viewResolver.setPrefix("classpath:/templates/");
         viewResolver.setSuffix(".html");
 
         registry.viewResolver(viewResolver);
