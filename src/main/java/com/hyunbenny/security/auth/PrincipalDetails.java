@@ -1,12 +1,14 @@
 package com.hyunbenny.security.auth;
 
 import com.hyunbenny.security.domain.User;
-import org.springframework.security.core.Authentication;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * 시큐리티 설정에서 loginProcessingUrl("/login")을 설정하면
@@ -19,19 +21,29 @@ import java.util.Collection;
  * Authentication 객체는 회원 정보를 가지고 있는 UserDetails타입으로 캡슐화(?) 되어 있다고 보면 되겠다.
  *
  */
-public class PrincipalDetails implements UserDetails {
+@Getter
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user;
+    private Map<String, Object> attributes;
 
+    // 일반 로그인
     public PrincipalDetails(User user) {
         this.user = user;
     }
 
-    /**
-     * 해당 유저의 권한을 반환한다.
-     */
+    // OAuth 로그인
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
+    }
+
+    ////////// UserDetails //////////
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        /**
+         * 해당 유저의 `권한`을 반환한다.
+         */
         Collection<GrantedAuthority> collect = new ArrayList<>();
         collect.add((GrantedAuthority) () -> user.getRoles());
         return collect;
@@ -65,5 +77,17 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    ////////// OAuth2User //////////
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return attributes.get("sub").toString();
     }
 }

@@ -26,12 +26,16 @@ public class User {
 
     private String roles; // USER, MANAGER, ADMIN
 
+    // oauth 로그인을 위해 추가
+    private String provider;
+    private String providerId;
+
     @CreationTimestamp
     private Timestamp createdAt;
 
     protected User() {}
 
-    private User(String userId, String password, String email, String name, String roles) {
+    private User(String userId, String password, String email, String name, String roles, String provider, String providerId) {
         this.userId = userId;
         this.password = password;
         this.email = email;
@@ -40,11 +44,23 @@ public class User {
         if(roles == null || roles.equals("")) this.roles = "ROLE_USER";
         else this.roles = roles;
 
+        this.provider = provider;
+        this.providerId = providerId;
+//        if(provider == null || provider.equals("")) this.provider = "hyunbenny";
+//        else this.provider = provider;
+//
+//        if(providerId == null || providerId.equals("")) this.providerId = userId;
+//        else this.providerId = providerId;
+
         this.createdAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public static User of(String userId, String password, String email, String name, String roles) {
-        return new User(userId, password, email, name, roles);
+        return new User(userId, password, email, name, roles, null, null);
+    }
+
+    public static User of(String userId, String password, String email, String name, String roles, String provider, String providerId) {
+        return new User(userId, password, email, name, roles, provider, providerId);
     }
 
     @Override

@@ -30,6 +30,8 @@ public class PrincipalDetailsService implements UserDetailsService {
      * 여기서 반환하는
      * UserDetails타입의 객체는 Authentication으로 반환되고
      * Authentication은 SecurityContextHolder로 들어간다.
+     *
+     * loadUserByUsername메서드가 종료 될 때 @AuthenticationPrincipal가 생성된다.
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
