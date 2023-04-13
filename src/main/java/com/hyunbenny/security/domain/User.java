@@ -59,8 +59,12 @@ public class User {
         return new User(userId, password, email, name, roles, null, null);
     }
 
-    public static User of(String userId, String password, String email, String name, String roles, String provider, String providerId) {
-        return new User(userId, password, email, name, roles, provider, providerId);
+    public static User of(String userId,String email, String name, String roles, String provider, String providerId) {
+        return new User(userId, null, email, name, roles, provider, providerId);
+    }
+
+    public void updateEmail(String newEmail) {
+        this.email = email;
     }
 
     @Override
